@@ -25,27 +25,27 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 // Here is an example with AWS Elastic Beanstalk:
-                echo "withAWS(credentials: 'aws-creds', region: 'us-east-1') {
-                    sh 'eb init -p "Java 8" my-app --region us-east-1'
-                    sh 'eb create my-env --single'"
+                echo "withAWS(credentials: 'aws-creds', region: 'us-east-1') {"
+                   echo " sh 'eb init -p "Java 8" my-app --region us-east-1'"
+                   echo " sh 'eb create my-env --single'"
                 }
             }
         }
         stage('Integration Tests on Staging') {
             steps {
                 // You would need to configure this step depending on your environment. Here is an example with Selenium:
-                echo "withEnv(['DISPLAY=:99']) {
-                    sh 'Xvfb :99 &'
-                    sh 'selenium-server -port 4444 &'
-                    sh 'mvn verify -Pintegration-tests -Dselenium.browser=firefox'"
+                echo "withEnv(['DISPLAY=:99']) {"
+                   echo " sh 'Xvfb :99 &'"
+                   echo " sh 'selenium-server -port 4444 &'"
+                   echo " sh 'mvn verify -Pintegration-tests -Dselenium.browser=firefox'"
                 }
             }
         }
         stage('Deploy to Production') {
             steps {
                 // Here is an example with AWS Elastic Beanstalk:
-                echo "withAWS(credentials: 'aws-creds', region: 'us-east-1') {
-                    sh 'eb deploy my-env'"
+                echo "withAWS(credentials: 'aws-creds', region: 'us-east-1') {"
+                   echo " sh 'eb deploy my-env'"
                 }
             }
         }
