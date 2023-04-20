@@ -1,42 +1,43 @@
 pipeline {
     agent any
-    environment {
-        DIRECTORY_PATH= '/c/users/kitte/documents/test'
-        TESTING_ENVIRONMENT= 'Live'
-        PRODUCTION_ENVIRONMENT= 'Jasmine'
-    }
+    
     stages{
         stage('Build'){
             steps{
-                echo "fetch the source code from ${DIRECTORY_PATH}"
-                echo "compile the code and generate any necessary artefacts"
+                sh "mvn clean package"
             }
         }
-        stage('Test'){
+        stage('Unit and Intergration Test'){
             steps{
-                echo "unit tests"
-                echo "integration tests"
+                sh 'mvn test'
+                sh 'mvn integration-test'
+                // this will run the test automation tool
             }
         }
-        stage('Code Quality Check'){
+        stage('Code Analysis'){
             steps{
-                echo "check the quality of the code"
+                sh 'mvn checkstyle:checkstyle'
             }
         }
-        stage('Deploy'){
+        stage('Security Scan'){
             steps{
-                echo "deploy the application to ${TESTING_ENVIRONMENT}"
+                sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://localhost:8080'
             }
         }
-        stage('Approval'){
+        stage('Deploy to Staging'){
             steps{
                 sleep (time:10, unit:"SECONDS")
+                sh 'eb deploy myapp-staging'
             }
         }
-        stage('Deplot to Production'){
+        stage('Integration Tests on Staging'){
             steps{
-                echo "Deploy the code to ${PRODUCTION_ENVIRONMENT}"
-                echo "hehe"
+                sh 'cypress run --config baseUrl=https://staging.myapp.com'
+            }
+        }
+        stage('Deploy to Production'){
+            Steps{
+                sh 'docker stack deploy -c docker-compose.yml myapp'
             }
         }
     }
