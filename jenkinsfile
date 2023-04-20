@@ -1,53 +1,54 @@
 pipeline {
     agent any
-    
     stages {
-                    stage('Build') {
-                        steps {
-                            echo "sh 'mvn clean package'"
-                        }
-                    }
-                    stage('Unit and Integration Tests') {
-                        steps {
-                           echo "sh 'mvn test'"
-                        }
-                    }
-                    stage('Code Analysis') {
-                        steps {
-                            echo "sh 'mvn checkstyle:checkstyle'"
-                        }
-                    }
-                    stage('Security Scan') {
-                        steps {
-                            echo "sh 'mvn org.owasp:dependency-check-maven:check'"
-                        }
-                    }
-                    stage('Deploy to Staging') {
-                        steps {
-                            // Here is an example with AWS Elastic Beanstalk:
-                            echo "withAWS(credentials: 'aws-creds', region: 'us-east-1') {"
-                               echo " sh 'eb init -p "Java 8" my-app --region us-east-1'"
-                               echo " sh 'eb create my-env --single'}"
-                            
-                        }
-                    }
-                    stage('Integration Tests on Staging') {
-                        steps {
-                            // You would need to configure this step depending on your environment. Here is an example with Selenium:
-                            echo "withEnv(['DISPLAY=:99']) {"
-                               echo " sh 'Xvfb :99 &'"
-                               echo " sh 'selenium-server -port 4444 &'"
-                               echo " sh 'mvn verify -Pintegration-tests -Dselenium.browser=firefox'}"
-                            
-                        }
-                    }
-                    stage('Deploy to Production') {
-                        steps {
-                            // Here is an example with AWS Elastic Beanstalk:
-                            echo "withAWS(credentials: 'aws-creds', region: 'us-east-1') {"
-                               echo " sh 'eb deploy my-env'}"
-                            
-                        }
-                    }
+        stage('Build') {
+            steps {
+                echo 'Building the code using Maven...'
+                // I would need to replace the command below with my actual build command:
+                // sh 'mvn clean install'
+            }
+        }
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Running unit and integration tests using JUnit...'
+                // I would need to replace the command below with my actual test command:
+                // sh 'mvn test'
+            }
+        }
+        stage('Code Analysis') {
+            steps {
+                echo 'Running code analysis using SonarQube...'
+                // I would need to replace the command below with my actual SonarQube scanner command:
+                // sh 'mvn sonar:sonar'
+            }
+        }
+        stage('Security Scan') {
+            steps {
+                echo 'Performing a security scan using OWASP Dependency Check...'
+                // I would need to replace the command below with my actual dependency-check command:
+                // sh 'mvn org.owasp:dependency-check-maven:check'
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                echo 'Deploying the application to a staging environment...'
+                // I would need to replace the command below with my actual deployment command:
+                // sh 'eb deploy my-app-staging' 
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Running integration tests on the staging environment...'
+                // I would need to replace the command below with my actual integration test command:
+                // sh 'mvn verify -Pintegration-tests'
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploying the application to a production environment...'
+                // I would need to replace the command below with my actual deployment command:
+                // sh 'eb deploy my-app-production'
+            }
+        }
     }
 }
