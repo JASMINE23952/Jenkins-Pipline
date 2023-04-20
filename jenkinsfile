@@ -17,7 +17,7 @@ pipeline {
             post{
                 success{
                     mail to: "jasmineguccione@gmail.com",
-                    subject: "Unit and Intergration Test Status Email"
+                    subject: "Unit and Intergration Test Status Email",
                     Body: "Unit and Intergration Test was successful!!"
                 }
             }
@@ -38,7 +38,7 @@ pipeline {
             post{
                 success{
                     mail to: "jasmineguccione@gmail.com",
-                    subject: "Security Scan Status Email"
+                    subject: "Security Scan Status Email",
                     Body: "Security Scan was successful!!"
                 }
             }
@@ -59,7 +59,7 @@ pipeline {
             post{
                 success{
                     mail to: "jasmineguccione@gmail.com",
-                    subject: "Integration Tests on Staging Status Email"
+                    subject: "Integration Tests on Staging Status Email",
                     Body: "Integration Tests on Staging was successful!!"
                 }
             }
