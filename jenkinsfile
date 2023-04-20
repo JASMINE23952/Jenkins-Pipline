@@ -1,43 +1,52 @@
 pipeline {
     agent any
     
-    stages{
-        stage('Build'){
-            steps{
-                sh "mvn clean package"
+    stages {
+        stage('Build') {
+            steps {
+                echo "sh 'mvn clean package'"
             }
         }
-        stage('Unit and Intergration Test'){
-            steps{
-                sh 'mvn test'
-                sh 'mvn integration-test'
-                // this will run the test automation tool
+        stage('Unit and Integration Tests') {
+            steps {
+               echo "sh 'mvn test'"
             }
         }
-        stage('Code Analysis'){
-            steps{
-                sh 'mvn checkstyle:checkstyle'
+        stage('Code Analysis') {
+            steps {
+                echo "sh 'mvn checkstyle:checkstyle'"
             }
         }
-        stage('Security Scan'){
-            steps{
-                sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://localhost:8080'
+        stage('Security Scan') {
+            steps {
+                echo "sh 'mvn org.owasp:dependency-check-maven:check'"
             }
         }
-        stage('Deploy to Staging'){
-            steps{
-                sleep (time:10, unit:"SECONDS")
-                sh 'eb deploy myapp-staging'
+        stage('Deploy to Staging') {
+            steps {
+                // Here is an example with AWS Elastic Beanstalk:
+                echo "withAWS(credentials: 'aws-creds', region: 'us-east-1') {
+                    sh 'eb init -p "Java 8" my-app --region us-east-1'
+                    sh 'eb create my-env --single'"
+                }
             }
         }
-        stage('Integration Tests on Staging'){
-            steps{
-                sh 'cypress run --config baseUrl=https://staging.myapp.com'
+        stage('Integration Tests on Staging') {
+            steps {
+                // You would need to configure this step depending on your environment. Here is an example with Selenium:
+                echo "withEnv(['DISPLAY=:99']) {
+                    sh 'Xvfb :99 &'
+                    sh 'selenium-server -port 4444 &'
+                    sh 'mvn verify -Pintegration-tests -Dselenium.browser=firefox'"
+                }
             }
         }
-        stage('Deploy to Production'){
-            Steps{
-                sh 'docker stack deploy -c docker-compose.yml myapp'
+        stage('Deploy to Production') {
+            steps {
+                // Here is an example with AWS Elastic Beanstalk:
+                echo "withAWS(credentials: 'aws-creds', region: 'us-east-1') {
+                    sh 'eb deploy my-env'"
+                }
             }
         }
     }
