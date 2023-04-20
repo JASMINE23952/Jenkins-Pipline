@@ -36,6 +36,7 @@ pipeline {
         stage('Deplot to Production'){
             steps{
                 echo "Deploy the code to ${PRODUCTION_ENVIRONMENT}"
+                echo "hehe"
             }
         }
     }
