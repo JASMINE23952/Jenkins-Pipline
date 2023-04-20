@@ -14,6 +14,13 @@ pipeline {
                 // I would need to replace the command below with my actual test command:
                 // sh 'mvn test'
             }
+            post{
+                success{
+                    mail to: "jasmineguccione@gmail.com",
+                    subject: "Unit and Intergration Test Status Email"
+                    Body: "Unit and Intergration Test was successful!!"
+                }
+            }
         }
         stage('Code Analysis') {
             steps {
@@ -28,6 +35,13 @@ pipeline {
                 // I would need to replace the command below with my actual dependency-check command:
                 // sh 'mvn org.owasp:dependency-check-maven:check'
             }
+            post{
+                success{
+                    mail to: "jasmineguccione@gmail.com",
+                    subject: "Security Scan Status Email"
+                    Body: "Security Scan was successful!!"
+                }
+            }
         }
         stage('Deploy to Staging') {
             steps {
@@ -41,6 +55,13 @@ pipeline {
                 echo 'Running integration tests on the staging environment...'
                 // I would need to replace the command below with my actual integration test command:
                 // sh 'mvn verify -Pintegration-tests'
+            }
+            post{
+                success{
+                    mail to: "jasmineguccione@gmail.com",
+                    subject: "Integration Tests on Staging Status Email"
+                    Body: "Integration Tests on Staging was successful!!"
+                }
             }
         }
         stage('Deploy to Production') {
