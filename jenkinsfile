@@ -38,11 +38,10 @@ pipeline {
             }
             post{
                 success{
-                    emailext (
+                    emailext to: "jasmineguccione@gmail.com",
                         subject: "Security Scan Status Email",
-                        to: "jasmineguccione@gmail.com",
                         body: "Security Scan was successful!!",
-                        attachmentsPattern: "**/*.log"
+                        attachLog: true
                     )
                 }
             }
@@ -62,11 +61,10 @@ pipeline {
             }
             post{
                 success{
-                    emailext (
+                    emailext to: "jasmineguccione@gmail.com",
                         subject: "Integration Tests on Staging Status Email",
-                        to: "jasmineguccione@gmail.com",
                         body: "Integration Tests on Staging was successful!!",
-                        attachmentsPattern: "**/*.log"
+                        attachLog: true
                     )
                 }
             }
