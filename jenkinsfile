@@ -17,10 +17,11 @@ pipeline {
             post{
                 success{
                     emailext ( 
+                        attachmentsPattern: "**/*.log",
+                        from: "jasmineguccione@gmail.com",
                         subject: "Unit and Intergration Test Status Email",
-                        to: "jasmineguccione@gmail.com",
                         body: "Unit and Intergration Test was successful!!",
-                        attachmentsPattern: "**/*.log"
+                        to: "jasmineguccione@gmail.com"
                     )
                 }
             }
