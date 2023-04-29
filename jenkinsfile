@@ -44,7 +44,7 @@ pipeline {
                         subject: "Security Scan Status Email",
                         to: "jasmineguccione@gmail.com",
                         body: "Security Scan was successful!!",
-                        attachlog: ture
+                        attachmentsPattern: "**/*.log"
                     )
                 }
             }
