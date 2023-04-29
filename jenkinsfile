@@ -16,9 +16,12 @@ pipeline {
             }
             post{
                 success{
-                    mail to: "jasmineguccione@gmail.com",
-                    subject: "Unit and Intergration Test Status Email",
-                    body: "Unit and Intergration Test was successful!!"
+                    emailext ( 
+                        subject: "Unit and Intergration Test Status Email",
+                        to: "jasmineguccione@gmail.com",
+                        body: "Unit and Intergration Test was successful!!",
+                        attachmentsPattern: "**/*.log"
+                    )
                 }
             }
         }
@@ -37,9 +40,12 @@ pipeline {
             }
             post{
                 success{
-                    mail to: "jasmineguccione@gmail.com",
-                    subject: "Security Scan Status Email",
-                    body: "Security Scan was successful!!"
+                    emailext (
+                        subject: "Security Scan Status Email",
+                        to: "jasmineguccione@gmail.com",
+                        body: "Security Scan was successful!!",
+                        attachmentsPattern: "**/*.log"
+                    )
                 }
             }
         }
@@ -58,9 +64,12 @@ pipeline {
             }
             post{
                 success{
-                    mail to: "jasmineguccione@gmail.com",
-                    subject: "Integration Tests on Staging Status Email",
-                    body: "Integration Tests on Staging was successful!!"
+                    emailext (
+                        subject: "Integration Tests on Staging Status Email",
+                        to: "jasmineguccione@gmail.com",
+                        body: "Integration Tests on Staging was successful!!",
+                        attachmentsPattern: "**/*.log"
+                    )
                 }
             }
         }
