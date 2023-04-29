@@ -42,7 +42,6 @@ pipeline {
                         subject: "Security Scan Status Email",
                         body: "Security Scan was successful!!",
                         attachLog: true
-                    )
                 }
             }
         }
@@ -65,7 +64,6 @@ pipeline {
                         subject: "Integration Tests on Staging Status Email",
                         body: "Integration Tests on Staging was successful!!",
                         attachLog: true
-                    )
                 }
             }
         }
